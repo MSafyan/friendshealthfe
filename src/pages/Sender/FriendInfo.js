@@ -57,7 +57,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight:"bold",
     fontSize:'1.2rem',
     display:'flex',
-    alignItems:"center"
+    alignItems:"center",
+    textDecoration:'none'
   }
 }));
 
@@ -126,7 +127,7 @@ function FriendInfo({isAuthenticated,loading,history, SIGN_UP}) {
                   <ErrorMessage component='div' style={{color:"red"}} name="info" />
                 </FormGroup>
               </Box>
-              <NavLink to="/" variant="body2" className={classes.font}>
+              <NavLink to="/" variant="body2" className={classes.font} style={{ textDecoration: 'none' }}>
                 <Button
                   disabled={loading}
                   type="submit"
