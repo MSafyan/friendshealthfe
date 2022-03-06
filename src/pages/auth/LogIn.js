@@ -1,7 +1,6 @@
 import React from 'react';
 import {FormGroup,Avatar,CircularProgress} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
@@ -9,7 +8,10 @@ import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import BgTilt from '../../components/layout/bgTilt';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
+import { NavLink } from 'react-router-dom'
 
 import { ErrorMessage,Field, Form, Formik} from 'formik';
 import { object, string } from 'yup';
@@ -36,19 +38,20 @@ function Copyright() {
 }
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+  mainContainer:{
+    marginTop:"3rem"
+  },
+  backButton:{
+    padding:'20px 0px'
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
+    margin:'auto'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(3),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -76,6 +79,16 @@ const useStyles = makeStyles((theme) => ({
   },
   card:{
     background:'#241534'
+  },
+  font:{
+    color:'white'
+  },
+  submitButton:{
+    margin:theme.spacing(3),
+    paddingRight:theme.spacing(4),
+    paddingLeft:theme.spacing(4),
+    fontWeight:"bold",
+    fontSize:'1.2rem',
   }
 }));
 
@@ -90,17 +103,19 @@ function SignIn({isAuthenticated,loading,history, SIGN_IN}) {
   }, [isAuthenticated]);
 
   return (
-  <>
-    <div className={classes.wave}>
-      <svg className={classes.waveSvg} data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path className={classes.shapeFill} d="M1200 120L0 16.48 0 0 1200 0 1200 120z"></path>
-      </svg>
-    </div>
-    <Container className={classes.card} style={{padding:'1rem'}} component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
+    <BgTilt>
+        <Grid container > 
+          <Grid item className={classes.backButton}>
+            <NavLink to="/" variant="body2" className={classes.font}>
+              <ArrowBackIcon/>
+              <Typography variant='body2'>
+                Go Back
+              </Typography>
+            </NavLink>
+          </Grid>
+        </Grid>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LockOutlinedIcon style={{fill:'black'}}/>
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
@@ -142,6 +157,7 @@ function SignIn({isAuthenticated,loading,history, SIGN_IN}) {
                 disabled={loading}
                 type="submit"
                 variant="contained"
+                className={classes.submitButton}
                 color="primary"
                 startIcon={
                   loading ? (
@@ -152,13 +168,13 @@ function SignIn({isAuthenticated,loading,history, SIGN_IN}) {
                 {loading ? 'Submitting' : 'Submit'}
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="/forgot" variant="body2">
+                <Grid item xs md={6}>
+                  <Link href="/forgot" variant="body2" className={classes.font}>
                     Forgot password?
                   </Link>
                 </Grid>
-                <Grid item>
-                  <Link href="/register" variant="body2">
+                <Grid item md={6}>
+                  <Link href="/register" variant="body2" className={classes.font}>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
@@ -166,13 +182,10 @@ function SignIn({isAuthenticated,loading,history, SIGN_IN}) {
             </Form>
           )}
         </Formik>
-      </div>
       <Box mt={8}>
         <Copyright />
       </Box>
-    </Container>
-  
-  </>
+    </BgTilt>
   );
 }
 

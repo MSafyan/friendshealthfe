@@ -31,8 +31,8 @@ if (getJwt()) {
 //   return { ok: false, error, errMessage: error.response.statusText, data: (error.response || {}).data }
 // });
 // export const url='http://volantestrapi-env.eba-kzqbnykc.us-east-1.elasticbeanstalk.com';
-export const url='https://api.volantedetailing.net';
-// export const url='http://localhost:1337';
+// export const url='https://api.volantedetailing.net';
+export const url='http://localhost:1337';
 
 export { setAuthHeader };
 

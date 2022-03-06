@@ -4,24 +4,14 @@ import { ThemeProvider } from '@material-ui/core/styles';
 
 import Register from './pages/auth/Register';
 import Login from './pages/auth/LogIn';
-import dashboard from './pages/dashboard';
 import Forgot from './pages/auth/Forgot';
 import Reset from './pages/auth/Reset';
+import Index from './pages/index';
 
-import Employees from './pages/employee/Employees';
-import EmployeeForm from './pages/employee/EmployeeForm';
-import Customers from './pages/customer/CustomerList';
-import NewCustomer from './pages/customer/NewCustomer';
-import NewVehicle from './components/customers/newVehicle'
-import NewCoupon from './pages/invoice/couponForm'
-import Coupons from './pages/invoice/coupons'
-import NewEmail from './pages/email/emailForm'
-import Test from './pages/test';
+import FriendInfo from './pages/Sender/FriendInfo';
+import HowWorks from './pages/Sender/HowWorks'
+import QrCode from './pages/Receiver.js/QrScreen'
 
-import Order from './pages/order'
-import Orders from './pages/order/Orders';
-
-// import Test from './pages/test'
 
 import PrivateRoute from './components/routing/PrivateRoute';
 import theme from './theme';
@@ -43,25 +33,17 @@ function App() {
         <Router>
         <PersistGate persistor={persistor} />
           <Switch>
-            <PrivateRoute exact path='/' component={dashboard}></PrivateRoute>
+
             <Route exact path='/login' component={Login}></Route>
             <Route exact path='/register' component={Register}></Route>
             <Route exact path='/forgot' component={Forgot}></Route>
             <Route exact path='/reset' component={Reset}></Route>
-            <Route exact path='/test' component={Test}></Route>
 
-            <PrivateRoute exact path='/neworder' component={Order}></PrivateRoute>
-            <PrivateRoute exact path='/orders' component={Orders}></PrivateRoute>
+            <Route exact path='/friendInfo' component={FriendInfo}></Route>
+            <Route exact path='/howWorks' component={HowWorks}></Route>
+            <Route exact path='/qrCode' component={QrCode}></Route>
+            <Route exact path='/' component={Index}></Route>
 
-            <PrivateRoute exact path='/employees' component={Employees}></PrivateRoute>
-            <PrivateRoute exact path='/employeesform' component={EmployeeForm}></PrivateRoute>
-
-            <PrivateRoute exact path='/customers' component={Customers}></PrivateRoute>
-            <PrivateRoute exact path='/newcustomer' component={NewCustomer}></PrivateRoute>
-            <PrivateRoute exact path='/newvehicle' component={NewVehicle}></PrivateRoute>
-            <PrivateRoute exact path='/newcoupon' component={NewCoupon}></PrivateRoute>
-            <PrivateRoute exact path='/coupons' component={Coupons}></PrivateRoute>
-            <PrivateRoute exact path='/newemail' component={NewEmail}></PrivateRoute>
           </Switch>
         </Router>
         </ThemeProvider>

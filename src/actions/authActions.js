@@ -28,6 +28,7 @@ export const SIGN_UP = (form_data) => async (dispatch) => {
 
 		delete axios.defaults.headers.common["Authorization"];
 		const res = await axios.post(`${url}/auth/local/register`, form_data);
+		setAuthHeader(res.data.jwt);
 		dispatch({ type: SIGN_UP_SUCCESS, payload: res.data.user });
 		toast.success("User successfully created...");
 

@@ -11,6 +11,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import BgTilt from '../../components/layout/bgTilt';
+
 import { ErrorMessage,Field, Form, Formik} from 'formik';
 import { object, string } from 'yup';
 
@@ -43,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -52,17 +54,26 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  font:{
+    color:'white'
+  },
+  submitButton:{
+    margin:theme.spacing(3),
+    paddingRight:theme.spacing(4),
+    paddingLeft:theme.spacing(4),
+    fontWeight:"bold",
+    fontSize:'1.2rem',
+  }
 }));
 
 function Forgot({FORGOT_PASSWORD,loading}) {
   const classes = useStyles();
 
   return (
-    <Container style={{padding:'1rem'}} component="main" maxWidth="xs">
-      <CssBaseline />
+    <BgTilt>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LockOutlinedIcon style={{fill:'black'}}/>
         </Avatar>
         <Typography component="h1" variant="h5">
           Password Forgot
@@ -86,29 +97,28 @@ function Forgot({FORGOT_PASSWORD,loading}) {
                   <ErrorMessage component='div' style={{color:"red"}} name="email" />
                 </FormGroup>
               </Box>
-              <Button 
-              type="submit"   
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit} 
-              disabled={isSubmitting || isValidating}
-              startIcon={
-                loading ? (
-                  <CircularProgress size="1rem" />
-                ) : undefined
-              }
+              <Button
+                disabled={loading}
+                type="submit"
+                variant="contained"
+                className={classes.submitButton}
+                color="primary"
+                startIcon={
+                  loading ? (
+                    <CircularProgress size="1rem" />
+                  ) : undefined
+                }
               >
                 {loading ? 'Submitting' : 'Submit'}
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="/login" variant="body2">
+                  <Link href="/login" variant="body2" className={classes.font}>
                     Already have an account? Sign In
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/register" variant="body2">
+                  <Link href="/register" variant="body2" className={classes.font}>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
@@ -120,7 +130,7 @@ function Forgot({FORGOT_PASSWORD,loading}) {
       <Box mt={8}>
         <Copyright />
       </Box>
-    </Container>
+      </BgTilt>
   );
 }
 

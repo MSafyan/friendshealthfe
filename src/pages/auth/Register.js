@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import BgTilt from '../../components/layout/bgTilt';
 
 import { ErrorMessage,Field, Form, Formik} from 'formik';
 import { object, string,ref } from 'yup';
@@ -46,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
+    margin:'auto'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -55,6 +57,16 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  font:{
+    color:'white'
+  },
+  submitButton:{
+    margin:theme.spacing(3),
+    paddingRight:theme.spacing(4),
+    paddingLeft:theme.spacing(4),
+    fontWeight:"bold",
+    fontSize:'1.2rem',
+  }
 }));
 
 function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
@@ -67,11 +79,10 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
   }, [isAuthenticated]);
 
   return (
-    <Container style={{padding:'1rem'}} component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
+    <BgTilt>
+      {/* <div className={classes.paper}> */}
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LockOutlinedIcon style={{fill:'black'}}/>
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign up
@@ -123,6 +134,7 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
                 disabled={loading}
                 type="submit"
                 variant="contained"
+                className={classes.submitButton}
                 color="primary"
                 startIcon={
                   loading ? (
@@ -134,12 +146,12 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="/forgot" variant="body2">
+                  <Link href="/forgot" variant="body2" className={classes.font}>
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/login" variant="body2">
+                  <Link href="/login" variant="body2" className={classes.font}>
                     {"Already have an account? Sign In"}
                   </Link>
                 </Grid>
@@ -147,11 +159,11 @@ function SignUp({isAuthenticated,loading,history, SIGN_UP}) {
             </Form>
           )}
         </Formik>
-      </div>
+      {/* </div> */}
       <Box mt={5}>
         <Copyright />
       </Box>
-    </Container>
+      </BgTilt>
   );
 }
 
