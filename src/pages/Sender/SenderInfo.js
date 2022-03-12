@@ -11,11 +11,11 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { NavLink } from 'react-router-dom'
 
-import { ErrorMessage,Field, Form, Formik} from 'formik';
-import { object, string,number } from 'yup';
+import { ErrorMessage,Field, Form, Formik } from 'formik';
+import { object, string } from 'yup';
 
 import { connect } from "react-redux";
-import { RECEIVER_INFO } from "../../actions/receiverAction";
+import { SENDER_INFO } from "../../actions/senderAction";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -59,25 +59,23 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function FriendInfo({receiver,history, RECEIVER_INFO}) {
+function FriendInfo({sender, SENDER_INFO}) {
   const classes = useStyles();
 
   const formState=()=>{
     const INITIAL_FORM_STATE = {
       firstName:'',
       lastName: '',
-      phoneNumber: '',
-      info:'',
+      reason:'',
     };
   
     const EDIT_FORM_STATE={
-      firstName:receiver?.firstName,
-      lastName: receiver?.lastName,
-      phoneNumber: receiver?.phoneNumber,
-      info:receiver?.info,
+      firstName: sender?.firstName,
+      lastName: sender?.lastName,
+      reason:sender?.reason,
     }
   
-    if(receiver===null){
+    if(sender===null){
       return INITIAL_FORM_STATE;
     }else{
       return EDIT_FORM_STATE;
@@ -88,7 +86,7 @@ function FriendInfo({receiver,history, RECEIVER_INFO}) {
     <BgTilt>
         <Grid container>
           <Grid item className={classes.backButton}>
-            <NavLink to="/senderInfo" variant="body2" className={classes.font}>
+            <NavLink to="/" variant="body2" className={classes.font}>
               <ArrowBackIcon/>
               <Typography variant='body2'>
                 Go Back
@@ -97,53 +95,47 @@ function FriendInfo({receiver,history, RECEIVER_INFO}) {
           </Grid>
         </Grid>
         <Typography component="h1" variant="h4" className={classes.heading}>
-          Tell us about your friend
+          About you, and why?
         </Typography>
         <Formik
           validationSchema={
             object({
               firstname: string().required('first name is mandatory!!!').min(1).max(100),
               lastname: string().min(1).max(100),
-              phoneNumber: number().integer().typeError('Please enter valid phone number').required('phone number is mandatory').min(999999999),
-              info: string().max(200),
+              reason: string().max(200),
             })
           }
         initialValues={formState()}
         >
-          {({ values,handleSubmit }) => (
+          {({ isSubmitting, isValidating,values,handleSubmit  }) => (
             <Form className={classes.form}>
               <Box marginBottom={2}>
                 <FormGroup>
-                  <Field name="firstName" as={TextField} label="Friends FirstName" variant='outlined' />
+                  <Field name="firstName" as={TextField} label="Your FirstName" variant='outlined' />
                   <ErrorMessage component='div' style={{color:"red"}} name="firstName" />
                 </FormGroup>
               </Box>
               <Box marginBottom={2}>
                 <FormGroup>
-                  <Field name="lastName" as={TextField} label="Friends lastName" variant='outlined' />
+                  <Field name="lastName" as={TextField} label="Your lastName" variant='outlined' />
                   <ErrorMessage component='div' style={{color:"red"}} name="lastName" />
                 </FormGroup>
               </Box>
               <Box marginBottom={2}>
                 <FormGroup>
-                  <Field name="phoneNumber" as={TextField} label="Friends PhoneNumber" variant='outlined' />
-                  <ErrorMessage component='div' style={{color:"red"}} name="phoneNumber" />
+                  <Field name="reason" as={TextField} label="Reason..." variant='outlined' />
+                  <ErrorMessage component='div' style={{color:"red"}} name="reason" />
                 </FormGroup>
               </Box>
-              <Box marginBottom={2}>
-                <FormGroup>
-                  <Field name="info" as={TextField} label="Additional Info" variant='outlined' />
-                  <ErrorMessage component='div' style={{color:"red"}} name="info" />
-                </FormGroup>
-              </Box>
-              <NavLink to="/treatmentOptions" variant="body2" className={classes.font} style={{ textDecoration: 'none' }}>
+              <NavLink to="/friendInfo" variant="body2" className={classes.font} style={{ textDecoration: 'none' }}>
                 <Button
                   type="submit"
                   variant="contained"
                   className={classes.submitButton}
                   color="primary"
                   onClick={()=>{
-                    RECEIVER_INFO({form:values,history});
+                    console.log('hi')
+                    SENDER_INFO({form:values});
                     handleSubmit();
                   }}
                 >
@@ -159,10 +151,10 @@ function FriendInfo({receiver,history, RECEIVER_INFO}) {
 }
 
 const mapStateToProps = state => ({
-  receiver:state.receiver.receiver
+  sender: state.sender.sender,
 });
 
 export default connect(
   mapStateToProps,
-  { RECEIVER_INFO }
+  { SENDER_INFO }
 )(FriendInfo);

@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     padding:'20px 0px'
   },
   avatar: {
-    margin: theme.spacing(1),
+    // margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
     margin:'auto'
   },

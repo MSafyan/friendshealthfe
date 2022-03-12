@@ -1,5 +1,4 @@
 import axios, { setAuthHeader,url } from './customAxios';
-// axios.defaults.withCredentials = true;
 import { clearJwt } from './jwt';
 import {errMsg} from './utils';
 
@@ -8,19 +7,12 @@ import {
 	SIGN_UP_FAIL,
 	SIGN_IN_SUCCESS,
 	SIGN_IN_FAIL,
-	// FORGOT_PASSWORD_SUCCESS,
-	// FORGOT_PASSWORD_FAIL,
-	// RESET_PASSWORD_SUCCESS,
-	// RESET_PASSWORD_FAIL,
 	LOGOUT_SUCCESS,
 	LOGOUT_FAIL,
 	SET_LOADING_AUTH,
 	NOT_LOADING_AUTH
 } from './types';
 import { toast } from "react-toastify";
-
-// const url = 'http://localhost:1337';
-// const url = process.env.REACT_APP_BE_HOST_URL;
 
 export const SIGN_UP = (form_data) => async (dispatch) => {
 	try {

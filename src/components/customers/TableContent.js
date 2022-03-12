@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import PaginationHead from './PaginationHead';
-import EasyInvoiceSample from './downloadInvoice';
 import {
 	Table,
 	TableRow,
@@ -9,26 +8,24 @@ import {
 	TablePagination,
 	TableFooter,
 	TableContainer,
-	Button,
-	Typography
+	IconButton
 } from '@material-ui/core';
+// import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
-import Edit from './Edit';
+import Email from './email'
+
+import Link from '@material-ui/core/Link';
 
 import { connect } from "react-redux";
-import { EMPLOYEE_EDIT } from "../../actions/employeeActions";
-import {INVOICE_DOWNLOAD} from '../../actions/orderAction'
-import Moment from 'react-moment';
+import { CUSTOMER_EDIT } from "../../actions/customerAction";
+
 
 const useStyles = makeStyles((theme) => ({
 	footer: {
 		fontSize: 'larger',
 		marginTop: '1rem',
 	},
-	statusButton:{
-		fontSize:'0.7rem',
-		padding:'0.1rem'
-	}
 }));
 
 function descendingComparator(a, b, orderBy) {
@@ -57,7 +54,7 @@ const sortedRowInformation = (rowArray, comparator) => {
 	return stabilizedRowArray.map((el) => el[0]);
 };
 
-const TableContent = ({type,EMPLOYEE_EDIT,orderList,loading,history}) => {
+const TableContent = ({CUSTOMER_EDIT,customerList,loading,history}) => {
 	const classes = useStyles();
 
 	const [orderDirection, setOrderDirection] = useState('asc');
@@ -79,25 +76,10 @@ const TableContent = ({type,EMPLOYEE_EDIT,orderList,loading,history}) => {
 		setRowsPerPage(parseInt(event.target.value), 10);
 		setPage(0);
 	};
-const warrentyPredictor=(per)=>{
-	console.log(per.created_at)
-	if(!per.services){
-		return;
-	}
-	return per?.services.map((val,i)=>{
-		
-		var myArray = /(\d)(Y)/g.exec(val.serviceName);
 
-			// console.log(myArray);
-			if(!myArray){
-				return <Typography variant='body1' color='secondary'>No warranty</Typography>
-			}
-			return <div key={i}><Moment add={{years:myArray[1]}} format="YYYY/MM/DD">{val.created_at}</Moment></div>})
-		
-}
 	return (
 		<div>
-			{!loading && orderList?.length>0 ? (
+			{!loading ? (
 				<>
 					<TableContainer>
 						<Table>
@@ -107,7 +89,7 @@ const warrentyPredictor=(per)=>{
 								handleRequestSort={handleRequestSort}
 							/>
 							{sortedRowInformation(
-								orderList,
+								customerList,
 								getComparator(orderDirection, valueToOrderBy)
 							)
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -116,40 +98,32 @@ const warrentyPredictor=(per)=>{
 										{/* just add the name of cells you want the data about */}
 										<TableCell>{person.id}</TableCell>
 										<TableCell>
-											{person.customer?.firstName || ''}
+											{person.firstName}
 										</TableCell>
 										<TableCell>
-											{person.customer?.email}
+											{person.email}
 										</TableCell>
 										<TableCell>
-											{person.vehicle?.vehicleRegNo || ''}
+											{person.address}
 										</TableCell>
 										<TableCell>
-											{person.paidAmount}
+											{person.loyalCustomer || 'none'}
 										</TableCell>
 										<TableCell>
-											{person.coupon?.name || 'none'}
+											{person.vehicles && person.vehicles.map((val)=>(<div key={val.id}>{val?.vehicleRegNo}</div>))}
 										</TableCell>
 										<TableCell>
-											{person.addedBy || 'Anonymous'}
-										</TableCell>
-										<TableCell>
-											<Button className={classes.statusButton} variant='contained' color={person?.status==='processing'?'primary':'secondary'}>
-												{person.status || 'null'}
-											</Button>
-										</TableCell>
-										<TableCell>
-											{person?.services && person.services.map((val,i)=>(<div key={i}>{val?.serviceName}</div>))}
-										</TableCell>
-
-										<TableCell>
-											{warrentyPredictor(person)}
-										</TableCell>
-
-										<TableCell>
-											<Edit id={person.id}/>		
-
-											<EasyInvoiceSample person={person}/>
+											<Link onClick={()=>{history.push('/newcustomer');return CUSTOMER_EDIT(person)}}>
+													<IconButton >
+														<EditIcon/>
+													</IconButton>
+											</Link>
+											{/* <Link onClick={()=>console.log('remove')}>
+													<IconButton>
+														<DeleteIcon color='secondary'/>
+													</IconButton>
+											</Link> */}
+											<Email email={person.email} contactNo1={person.contactNo1} />
 										</TableCell>
 									</TableRow>
 								))}
@@ -161,7 +135,7 @@ const warrentyPredictor=(per)=>{
 							color='primary'
 							rowsPerPageOptions={[1, 5, 10]}
 							component='div'
-							count={orderList.length}
+							count={customerList.length}
 							rowsPerPage={rowsPerPage}
 							// showFirstButton
 							page={page}
@@ -171,19 +145,18 @@ const warrentyPredictor=(per)=>{
 					</TableFooter>
 				</>
 			) : (
-				<h3>Loading... Mrs {type} </h3>
+				<h3>Loading...</h3>
 			)}
 		</div>
 	);
 };
 
 const mapStateToProps = state => ({
-  orderList:state.order.orderList,
-	loading:state.order.loading,
-	type:state.auth.user.type
+  customerList:state.customer.customerList,
+	loading:state.customer.loading
 });
 
 export default connect(
 	mapStateToProps,
-	{ EMPLOYEE_EDIT ,INVOICE_DOWNLOAD}
+	{ CUSTOMER_EDIT }
 )(TableContent);

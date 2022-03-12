@@ -6,27 +6,22 @@ import { Formik, Form } from 'formik';
 import {
   Grid,
   IconButton,
-  Typography,
-  Button,
-  CircularProgress
+  Typography
 } from '@material-ui/core';
+import {emailtemplates} from '../../components/data/orderService'
 import Select from 'react-select'
 
-import EditIcon from '@material-ui/icons/Edit';
 
+import Textfield from '../../components/FormsUI/Textfields';
+// import Button from '../../components/FormsUI/Buttons';
+import EmailIcon from '@material-ui/icons/Email';
 
 import { connect } from "react-redux";
-import {UPDATE_ORDER} from '../../actions/orderAction'
+import { CUSTOMER_EMAIL } from "../../actions/customerAction";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
-
-const status=[
-  {value:'processing',label:'processing'},
-  {value:'canceled',label:'canceled'},
-  {value:'completed',label:'completed'
-}]
 
 function getModalStyle() {
   const top = 50 + rand();
@@ -54,11 +49,11 @@ const useStyles = makeStyles((theme) => ({
     padding:'0.4rem',
     fontSize:'1rem',
     borderRadius:'0.3rem',
-    margin:'0px auto'
+    margin:'0px 1rem',
   }
 }));
 
-function SimpleModal({id,UPDATE_ORDER,loading}) {
+function SimpleModal({email,contactNo1,CUSTOMER_EMAIL,loading}) {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
@@ -73,21 +68,23 @@ function SimpleModal({id,UPDATE_ORDER,loading}) {
   };
 
   const FORM_VALIDATION = Yup.object().shape({
-    status: Yup.string()
+    searchTerm: Yup.string()
       .required('Required'),
+    searchBy:Yup.string().required('enter state name'),
   });
   
 
       const INITIAL_FORM_STATE = {
-        id:id,
-        status:''
+        email: email,
+        contactNo1:contactNo1,
+        text: 'hello from admin',
       };
 
 
   return (
     <span>
       <IconButton onClick={handleOpen}>
-        <EditIcon/>
+        <EmailIcon/>
       </IconButton>
 
       <Modal
@@ -103,7 +100,7 @@ function SimpleModal({id,UPDATE_ORDER,loading}) {
             initialValues={ INITIAL_FORM_STATE}
             validationSchema={FORM_VALIDATION}
             onSubmit={values => {
-              UPDATE_ORDER(values);
+              CUSTOMER_EMAIL(values);
             }}
           >
             {({ values,setFieldValue, errors, isSubmitting, isValid }) => (
@@ -111,32 +108,62 @@ function SimpleModal({id,UPDATE_ORDER,loading}) {
 
               <Grid container spacing={2}>
 
-              <Grid item xs={12}>
-                  <Typography variant='body1'>
-                    Payment Status
-                  </Typography>
-                  <Select
-                    label="Status"
-                    options={status}
-                    onChange={value=>setFieldValue('status',value.value)}
-                    defaultValue={{label:"processing",value:"processing"}}
+                <Grid item xs={12}>
+                  <Textfield
+                    name="email"
+                    email="Search Term"
                   />
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Button
+                  <Textfield
+                    name="contactNo1"
+                    email="Phone Number"
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Typography variant='body2'>
+                    Email templates
+                  </Typography>
+
+                    <Select
+                      label="Email template"
+                      options={emailtemplates}
+                      onChange={value=>{
+                        return setFieldValue('text',value.value)}}
+                    />
+                  </Grid>
+                <Grid item xs={12}>
+                  <Textfield
+                    name="text"
+                    label="Text for email"
+                    multiline
+                    rows={4}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <span className={classes.spanButton} onClick={()=>CUSTOMER_EMAIL({...values,method:'email'})}>
+                      {loading ? 'Sending' : 'Send Email'}
+                    </span>
+                    <span className={classes.spanButton} onClick={()=>CUSTOMER_EMAIL({...values,method:'sms'})}>
+                      {loading ? 'Sending' : 'Send Sms'}
+                    </span>
+                    {/* <Button
                     disabled={loading}
                     type="submit"
                     variant="contained"
                     color="primary"
+                    onClick={()=>console.log('hell')}
                     startIcon={
                       loading ? (
                         <CircularProgress size="1rem" />
                       ) : undefined
                     }
                   >
-                    {loading ? 'Sending' : 'Update Status'}
-                  </Button>
+                    {loading ? 'Sending' : 'Sent Email'}
+                  </Button> */}
                 </Grid>
               </Grid>
             </Form>
@@ -155,5 +182,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  {  UPDATE_ORDER }
+  { CUSTOMER_EMAIL  }
 )(SimpleModal);

@@ -8,12 +8,16 @@ import Forgot from './pages/auth/Forgot';
 import Reset from './pages/auth/Reset';
 import Index from './pages/index';
 
+import SenderInfo from './pages/Sender/SenderInfo';
 import FriendInfo from './pages/Sender/FriendInfo';
-import HowWorks from './pages/Sender/HowWorks'
+import TreatmentOption from './pages/Sender/TreatmentOption';
+import PaymentForm from './pages/Sender/PaymentForm';
+import HowWorks from './pages/Sender/HowWorks';
+import Success from './pages/Sender/Succes';
 import QrCode from './pages/Receiver.js/QrScreen'
 
 
-import PrivateRoute from './components/routing/PrivateRoute';
+// import PrivateRoute from './components/routing/PrivateRoute';
 import theme from './theme';
 // import history from './store';
 import { ToastContainer } from "react-toastify";
@@ -39,9 +43,15 @@ function App() {
             <Route exact path='/forgot' component={Forgot}></Route>
             <Route exact path='/reset' component={Reset}></Route>
 
-            <Route exact path='/friendInfo' component={FriendInfo}></Route>
-            <Route exact path='/howWorks' component={HowWorks}></Route>
             <Route exact path='/qrCode' component={QrCode}></Route>
+
+            <Route exact path='/SenderInfo' component={SenderInfo}></Route>
+            <Route exact path='/treatmentOptions' component={TreatmentOption}></Route>
+            <Route exact path='/friendInfo' component={FriendInfo}></Route>
+            <Route exact path='/paymentForm' component={PaymentForm}></Route>
+            <Route exact path='/success' component={Success}></Route>
+            <Route exact path='/howWorks' component={HowWorks}></Route>
+            
             <Route exact path='/' component={Index}></Route>
 
           </Switch>

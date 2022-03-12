@@ -1,15 +1,20 @@
 import { toast } from "react-toastify";
 
 export const errMsg=(error)=>{
-	console.log(error.response)
+	let msg='';
 	debugger;
+	console.log(error.response)
 	if(!error.response){
-	return toast.warn("server error");
-}
-else if(error.response.data==="Not found" || error.response.data.error !=="Bad Request"){
-	return toast.warn("server error");
-}else{
-	const msg=error.response?.data?.message[0]?.messages[0]?.message;
-	return toast.warn(msg);
-}
+		msg='Server Error'
+	}
+	else if(error.response.data.error==="Bad Request"){
+		msg=error.response?.data?.message[0]?.messages[0]?.message;
+	}
+	else if(error.response.data.error==="Forbidden"){
+		msg="please login first..."
+	}
+	else if(error.response.data==="Not found" || error.response.data.error){
+		msg = 'Server Error'
+	}
+	toast.warn(msg);
 }

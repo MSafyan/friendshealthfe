@@ -5,7 +5,6 @@ import BgTilt from '../components/layout/bgTilt';
 
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import RedeemIcon from '@material-ui/icons/Redeem';
-import FaceIcon from '@material-ui/icons/Face';
 
 import { NavLink } from 'react-router-dom';
 
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   img:{
-    paddingBottom:theme.spacing(4),
+    paddingBottom:theme.spacing(0),
   },
   item:{
     background:theme.palette.primary.main,
@@ -34,6 +33,11 @@ const useStyles = makeStyles((theme) => ({
     display:'flex',
     alignItems:'center'
   },
+  heading:{
+    textAlign:'center',
+    paddingBottom:theme.spacing(0),
+    color:theme.palette.primary.main
+  },
   imgIcon:{
     width:'2rem',
     marginRight:theme.spacing(3),
@@ -43,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
   },
   bColor:{
     color:'black',
-    textTransform:"none"
+    textTransform:"none",
+    fontWeight:'bold'
   },
   icon:{
     marginRight:theme.spacing(3),
@@ -59,10 +64,13 @@ const Index = ({isAuthenticated,LOGOUT}) => {
 
   return (
     <BgTilt>
+        <Typography component="h1" variant="h4" className={classes.heading}>
+          Friendly
+        </Typography>
         <div className={classes.img}>
-          <img src='heart.PNG' width='100px' alt=''/>
+          <img src='heart.PNG' width='40%' alt=''/>
         </div>
-        <NavLink to='/friendInfo' style={{ textDecoration: 'none' }}>
+        <NavLink to='/senderInfo' style={{ textDecoration: 'none' }}>
           <div className={classes.item}>
             <Button>
               <RedeemIcon fontSize='large' className={classes.icon}/>

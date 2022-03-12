@@ -2,10 +2,6 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import BgTilt from '../../components/layout/bgTilt';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
-
-import { NavLink } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   container:{
@@ -13,7 +9,10 @@ const useStyles = makeStyles((theme) => ({
   },
   heading:{
     display:'flex',
-    padding:`${theme.spacing(6)}px 10px 10px 10px`
+    padding:`${theme.spacing(6)}px 10px 10px 10px`,
+    textAlign:'left',
+    paddingBottom:theme.spacing(2),
+    color:theme.palette.primary.main
   },
   item:{
     background:theme.palette.primary.main,
@@ -50,7 +49,7 @@ const HowWorks = () => {
     <BgTilt>
       <div className={classes.heading}>
         <img width='30px' src='heart.PNG' alt=''/>
-        <Typography variant='h5'>
+        <Typography variant='h4'>
           How it works
         </Typography>
       </div>
@@ -66,15 +65,6 @@ const HowWorks = () => {
           </div>
         })
       }
-      <div>
-        <NavLink to='/friendInfo' style={{ textDecoration: 'none' }}>
-          <div className={classes.item}>
-            <Typography variant='h5'>
-              Continue to Payment
-            </Typography>
-          </div>
-        </NavLink>
-      </div>
 
     </BgTilt>
   )

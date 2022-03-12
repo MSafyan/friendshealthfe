@@ -12,7 +12,7 @@ import Select from '../../components/FormsUI/Selects';
 import Button from '../../components/FormsUI/Buttons';
 
 import { connect } from "react-redux";
-import { ORDER_FIND } from "../../actions/orderAction";
+import { CUSTOMER_FIND } from "../../actions/customerAction";
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
     marginTop: theme.spacing(5),
@@ -21,11 +21,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const searchTypes={
-  'OrderId':'OrderId',
-  'customerId':'customerId',
-  // 'firstName':'firstName',
-  // 'email':'email',
-  // 'contactNo':'contactNo',
+  'id':'id',
+  'firstName':'firstName',
+  'email':'email',
+  'contactNo':'contactNo',
   'vehicleRegNo':'vehicleRegNo'
 }
 
@@ -35,7 +34,7 @@ const FORM_VALIDATION = Yup.object().shape({
   searchBy:Yup.string().required('enter state name'),
 });
 
-const SearchForm = ({ORDER_FIND,loading}) => {
+const SearchForm = ({CUSTOMER_FIND,loading}) => {
   const classes = useStyles();
 
     const INITIAL_FORM_STATE = {
@@ -46,10 +45,10 @@ const SearchForm = ({ORDER_FIND,loading}) => {
   return (
     <>
         <Typography variant='h6'>
-          Order search
+          Search Customer
         </Typography>
         <Typography variant='body2'>
-          search for order by OrderID, CustomerID,vehicle Reg No
+          search for customer you want to create an order for. 
         </Typography>
           <div className={classes.formWrapper}>
 
@@ -58,7 +57,7 @@ const SearchForm = ({ORDER_FIND,loading}) => {
               validationSchema={FORM_VALIDATION}
               onSubmit={values => {
                 // console.log(values);
-                ORDER_FIND(values);
+                CUSTOMER_FIND(values);
               }}
             >
               {({ values, errors, isSubmitting, isValid }) => (
@@ -114,5 +113,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { ORDER_FIND  }
+  { CUSTOMER_FIND  }
 )(SearchForm);
